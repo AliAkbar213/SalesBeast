@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+ * SaleBeast design foundation
+ * Two colour families: charcoal for structure and flame orange for action.
+ */
+:root {
+  color: #1a1614;
+  background: #f7f6f4;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+@theme {
+  /* Typography */
+  --font-display: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-body: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+
+  /* Brand: flame orange */
+  --color-primary: #f04416;
+  --color-primary-hover: #d9360d;
+  --color-primary-active: #b92d0a;
+  --color-primary-soft: #fff0e9;
+
+  /* Brand: charcoal */
+  --color-brand-dark: #15110f;
+  --color-brand-dark-hover: #241c18;
+
+  /* Page and surfaces */
+  --color-background: #f7f6f4;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efedea;
+
+  /* Text */
+  --color-text-main: #1a1614;
+  --color-text-muted: #746b66;
+  --color-text-light: #fffaf7;
+
+  /* Borders */
+  --color-border: #ded9d5;
+  --color-border-strong: #c8c0ba;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-text-main);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(a, button, input, textarea, select):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    color: var(--color-text-light);
+    background: var(--color-primary);
+  }
+}
+
+@layer components {
+  .page-container {
+    width: min(100% - 2rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
