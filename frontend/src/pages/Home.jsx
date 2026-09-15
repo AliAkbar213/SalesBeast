@@ -101,40 +101,40 @@ const Home = () => {
           )}
 
           {data && !loading && !error && data.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-3">
-            {data.map((category, index) => (
-              <Link
-                key={category.id}
-                to={`/products?category=${category.id}`}
-                className="group relative flex min-h-64 min-w-0 flex-col justify-between gap-6 overflow-hidden rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary hover:bg-primary-soft/40 sm:p-8"
-              >
-                <span className="flex size-11 items-center justify-center rounded-md border border-primary/20 bg-primary-soft font-mono text-xs font-bold text-primary">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="flex h-40 items-center justify-center overflow-hidden rounded-md bg-surface-muted/40 p-4">
-                  {category.image_path ? (
-                    <img
-                      src={`${img_url}${category.image_path}`}
-                      alt={category.name || "Category image"}
-                      loading="lazy"
-                      className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02] motion-reduce:transform-none"
-                    />
-                  ) : (
-                    <span className="font-mono text-xs uppercase tracking-widest text-text-muted">No image</span>
-                  )}
-                </div>
-                <span>
-                  <span className="block break-words text-2xl font-black tracking-[-0.035em] group-hover:text-primary">
-                    {category.name}
+            <div className="grid gap-4 md:grid-cols-3">
+              {data.map((category, index) => (
+                <Link
+                  key={category.id}
+                  to={`/products?category=${category.id}`}
+                  className="group relative flex min-h-64 min-w-0 flex-col justify-between gap-6 overflow-hidden rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary hover:bg-primary-soft/40 sm:p-8"
+                >
+                  <span className="flex size-11 items-center justify-center rounded-md border border-primary/20 bg-primary-soft font-mono text-xs font-bold text-primary">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="mt-3 flex items-center justify-between gap-3 text-sm text-text-muted">
-                    Explore collection
-                    <ArrowIcon />
+                  <div className="flex h-40 items-center justify-center overflow-hidden rounded-md bg-surface-muted/40 p-4">
+                    {category.image_path ? (
+                      <img
+                        src={`${img_url}${category.image_path}`}
+                        alt={category.name || "Category image"}
+                        loading="lazy"
+                        className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02] motion-reduce:transform-none"
+                      />
+                    ) : (
+                      <span className="font-mono text-xs uppercase tracking-widest text-text-muted">No image</span>
+                    )}
+                  </div>
+                  <span>
+                    <span className="block wrap-break-word text-2xl font-black tracking-[-0.035em] group-hover:text-primary">
+                      {category.name}
+                    </span>
+                    <span className="mt-3 flex items-center justify-between gap-3 text-sm text-text-muted">
+                      Explore collection
+                      <ArrowIcon />
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
           )}
         </section>
 

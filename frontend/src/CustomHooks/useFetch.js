@@ -32,7 +32,7 @@ function useFetch(url) {
                 setLoading(false)
             })
 
-            fetchData()
+        fetchData()
     }, [url])
 
     console.log(data);

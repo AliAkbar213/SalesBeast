@@ -47,8 +47,6 @@ function Products() {
   const { data, loading, error } = useFetch(import.meta.env.VITE_API_URL + `/api/products?${params.toString()}`)
   const { data: categories, loading: categoriesLoading } = useFetch(import.meta.env.VITE_API_URL + "/api/products/categories");
 
-  const img_url = import.meta.env.VITE_API_URL + "/images/"
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
@@ -231,7 +229,7 @@ function Products() {
                   >
                     <Link to={`/products/${item.id}`}>
                       <div className="relative aspect-square w-full overflow-hidden p-3 sm:aspect-4/3 sm:p-4">{item.image && <img
-                        src={`${img_url}${item.image}`}
+                        src={`${item.image}`}
                         alt={item.name || "Product image"}
                         className={`h-full w-full object-contain transition-transform duration-200 ease-out ${outOfStock ? "opacity-45 grayscale" : "group-hover:scale-[1.02]"}`}
                       />}
