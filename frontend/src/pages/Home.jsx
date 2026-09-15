@@ -1,8 +1,5 @@
-const categories = [
-  { name: "Projectors", label: "Bring the big screen home" },
-  { name: "Gamepads", label: "Play with better control" },
-  { name: "Accessories", label: "Complete your setup" },
-];
+import { Link } from "react-router";
+import useFetch from "../CustomHooks/useFetch";
 
 const ArrowIcon = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2">
@@ -11,6 +8,11 @@ const ArrowIcon = () => (
 );
 
 const Home = () => {
+  const { data, loading, error } = useFetch(
+    import.meta.env.VITE_API_URL + "/api/products/categories"
+  );
+  const img_url = import.meta.env.VITE_API_URL + "/images/";
+
   return (
     <div className="min-h-screen bg-background text-text-main">
       <main>
@@ -26,13 +28,13 @@ const Home = () => {
                 Projectors, controllers, and smart accessories selected for great performance without the guesswork.
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
-                <a
-                  href="#categories"
+                <Link
+                  to="/products"
                   className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3.5 text-sm font-bold text-white hover:bg-primary-hover"
                 >
                   Shop the collection
                   <ArrowIcon />
-                </a>
+                </Link>
                 <a
                   href="#about"
                   className="inline-flex items-center rounded-md border border-white/20 px-6 py-3.5 text-sm font-bold text-white hover:border-white/40 hover:bg-white/5"
@@ -68,34 +70,72 @@ const Home = () => {
               <p className="eyebrow mb-3">Shop by category</p>
               <h2 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">Find your next upgrade.</h2>
             </div>
-            <a href="#" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover">
+            <Link to="/products" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover">
               View all products
               <ArrowIcon />
-            </a>
+            </Link>
           </div>
 
+          {loading && (
+            <div role="status" aria-label="Loading categories" className="grid gap-4 md:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} aria-hidden="true" className="min-h-80 animate-pulse rounded-lg border border-border bg-surface p-6 motion-reduce:animate-none sm:p-8">
+                  <div className="size-11 rounded-md bg-surface-muted" />
+                  <div className="my-6 h-32 rounded-md bg-surface-muted" />
+                  <div className="h-6 w-2/3 rounded bg-surface-muted" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {error && !loading && (
+            <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm font-medium text-red-700">
+              Unable to load categories.
+            </p>
+          )}
+
+          {data && !loading && !error && data.length === 0 && (
+            <p className="rounded-lg border border-border bg-surface p-6 text-sm text-text-muted">
+              No categories available yet.
+            </p>
+          )}
+
+          {data && !loading && !error && data.length > 0 && (
           <div className="grid gap-4 md:grid-cols-3">
-            {categories.map((category, index) => (
-              <a
-                key={category.name}
-                href="#"
-                className="group relative flex min-h-64 flex-col justify-between gap-8 overflow-hidden rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary hover:bg-primary-soft/40 sm:p-8"
+            {data.map((category, index) => (
+              <Link
+                key={category.id}
+                to={`/products?category=${category.id}`}
+                className="group relative flex min-h-64 min-w-0 flex-col justify-between gap-6 overflow-hidden rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary hover:bg-primary-soft/40 sm:p-8"
               >
                 <span className="flex size-11 items-center justify-center rounded-md border border-primary/20 bg-primary-soft font-mono text-xs font-bold text-primary">
-                  0{index + 1}
+                  {String(index + 1).padStart(2, "0")}
                 </span>
+                <div className="flex h-40 items-center justify-center overflow-hidden rounded-md bg-surface-muted/40 p-4">
+                  {category.image_path ? (
+                    <img
+                      src={`${img_url}${category.image_path}`}
+                      alt={category.name || "Category image"}
+                      loading="lazy"
+                      className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02] motion-reduce:transform-none"
+                    />
+                  ) : (
+                    <span className="font-mono text-xs uppercase tracking-widest text-text-muted">No image</span>
+                  )}
+                </div>
                 <span>
-                  <span className="block text-2xl font-black tracking-[-0.035em] group-hover:text-primary">
+                  <span className="block break-words text-2xl font-black tracking-[-0.035em] group-hover:text-primary">
                     {category.name}
                   </span>
                   <span className="mt-3 flex items-center justify-between gap-3 text-sm text-text-muted">
-                    {category.label}
+                    Explore collection
                     <ArrowIcon />
                   </span>
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
+          )}
         </section>
 
         <section id="about" className="scroll-mt-20 border-y border-border bg-surface-muted/60">

@@ -38,19 +38,37 @@ const GetAllProducts = async (req, res) => {
 }
 
 
-// const GetProductById = async (req, res) => {
-//     const id = req.params.id;
-//     const query = `SELECT products.id, products.name, description, price, stock_quantity, categories.name as category, brands.name as brand, created_at
-//             FROM products JOIN categories ON products.category_id = categories.id
-//             JOIN brands ON products.brand_id = brands.id WHERE products.id = ?`
-//     try {
-//         const { rows } = await pool.query(query, [id])
-//         if (rows.length == 0) res.json({ "err": "no product found" })
-//         res.send(rows[0]);
-//     } catch (err) {
-//         res.json({ "err": err.message })
-//     }
-// }
+const GetProductDetails = async (req, res) => {
+    const id = req.params.id;
+
+    const query = `
+        SELECT 
+            products.id,
+            products.name,
+            products.desc,
+            products.price,
+            products.stock,
+            products.image,
+            categories.name AS category
+        FROM products
+        JOIN categories ON products.category_id = categories.id
+        WHERE products.id = $1
+    `;
+
+    try {
+        const { rows } = await pool.query(query, [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ err: "No product found" });
+        }
+
+        res.json(rows[0]);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: err.message });
+    }
+};
 
 const GetCategories = async (req, res) => {
 
@@ -139,5 +157,6 @@ const GetProductByCategory = async (req, res) => {
 module.exports = {
     GetAllProducts,
     GetCategories,
-    GetProductByCategory
+    GetProductByCategory,
+    GetProductDetails
 }

@@ -229,13 +229,14 @@ function Products() {
                     key={item.id}
                     className={`group flex min-w-0 flex-col overflow-hidden rounded-2xl border transition-colors duration-200 ease-out ${outOfStock ? "border-border bg-surface-muted" : "border-border-subtle bg-surface hover:border-border"}`}
                   >
-                    <div className="relative aspect-square w-full overflow-hidden p-3 sm:aspect-4/3 sm:p-4">
-                      {item.image && <img
+                    <Link to={`/products/${item.id}`}>
+                      <div className="relative aspect-square w-full overflow-hidden p-3 sm:aspect-4/3 sm:p-4">{item.image && <img
                         src={`${img_url}${item.image}`}
                         alt={item.name || "Product image"}
                         className={`h-full w-full object-contain transition-transform duration-200 ease-out ${outOfStock ? "opacity-45 grayscale" : "group-hover:scale-[1.02]"}`}
                       />}
-                    </div>
+                      </div>
+                    </Link>
 
                     <div className="flex flex-1 flex-col justify-between gap-3 px-4 pt-4 pb-2">
                       <p className={`line-clamp-2 text-sm font-medium leading-snug sm:text-base ${outOfStock ? "text-text-muted" : "text-text-main"}`}>
