@@ -1,7 +1,7 @@
 const pool = require("../../dbConnection")
 
 const GetAllProducts = async (req, res) => {
-    let query = `SELECT id, name, price, image FROM products`
+    let query = `SELECT id, name, price, stock, image FROM products`
     const params = []
     const conditions = []
 

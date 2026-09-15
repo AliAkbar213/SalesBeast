@@ -19,8 +19,11 @@ app.use(express.json())
 app.use('/api/products', productRoute)
 
 app.get("/api/products", async (req, res) => {
-    res.json({message:"success"})
+    res.json({ message: "success" })
 })
+
+app.use('/images', express.static('product_images'))
+
 
 
 app.listen(5000, () => {

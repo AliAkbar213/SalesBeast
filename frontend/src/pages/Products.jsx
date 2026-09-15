@@ -8,6 +8,26 @@ function Products() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") || "");
+  const [reminders, setReminders] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("salebeast-stock-reminders") || "[]");
+      return Array.isArray(saved)
+        ? Object.fromEntries(saved.filter(id => typeof id === "string").map(id => [id, "saved"]))
+        : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const requestReminder = (id) => {
+    const next = { ...reminders, [String(id)]: "saved" };
+    try {
+      localStorage.setItem("salebeast-stock-reminders", JSON.stringify(Object.keys(next)));
+      setReminders(Object.fromEntries(Object.keys(next).map(key => [key, "saved"])));
+    } catch {
+      setReminders({ ...reminders, [String(id)]: "session" });
+    }
+  };
 
   const query = searchParams.get("q") || "";
   const category = searchParams.get("category") || "";
@@ -201,33 +221,66 @@ function Products() {
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
               {data.map((item) => {
                 const quantity = getItemQuantity(item.id)
+                const outOfStock = item.stock === 0 || item.stock === "0"
+                const reminder = reminders[String(item.id)]
 
                 return (
                   <article
                     key={item.id}
-                    className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border-subtle bg-surface transition-colors duration-200 ease-out hover:border-border"
+                    className={`group flex min-w-0 flex-col overflow-hidden rounded-2xl border transition-colors duration-200 ease-out ${outOfStock ? "border-border bg-surface-muted" : "border-border-subtle bg-surface hover:border-border"}`}
                   >
                     <div className="relative aspect-square w-full overflow-hidden p-3 sm:aspect-4/3 sm:p-4">
-                      {item.image_path && <img
-                        src={`${img_url}${item.image_path}`}
+                      {item.image && <img
+                        src={`${img_url}${item.image}`}
                         alt={item.name || "Product image"}
-                        className="h-full w-full object-contain transition-transform duration-200 ease-out group-hover:scale-[1.02]"
+                        className={`h-full w-full object-contain transition-transform duration-200 ease-out ${outOfStock ? "opacity-45 grayscale" : "group-hover:scale-[1.02]"}`}
                       />}
                     </div>
 
                     <div className="flex flex-1 flex-col justify-between gap-3 px-4 pt-4 pb-2">
-                      <p className="line-clamp-2 text-sm font-medium leading-snug text-text-main sm:text-base">
+                      <p className={`line-clamp-2 text-sm font-medium leading-snug sm:text-base ${outOfStock ? "text-text-muted" : "text-text-main"}`}>
                         {item.name}
                       </p>
 
                       <div>
-                        <p className="text-sm font-semibold text-text-main sm:text-base">
+                        <p className={`text-sm font-semibold sm:text-base ${outOfStock ? "text-text-muted" : "text-text-main"}`}>
                           {item.price} KD
                         </p>
+                        {outOfStock && (
+                          <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-red-700">
+                            <svg aria-hidden="true" viewBox="0 0 16 16" className="size-3.5 shrink-0 fill-none stroke-current" strokeWidth="2" strokeLinecap="round">
+                              <path d="m4 4 8 8M12 4l-8 8" />
+                            </svg>
+                            Out of stock
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="flex min-h-20 items-center justify-end px-1 pb-3 sm:px-4 sm:pb-4">
-                      {quantity > 0 ? (
+                      {outOfStock ? (
+                        <div className="w-full px-3 pt-2 sm:px-0">
+                          <button
+                            type="button"
+                            disabled={Boolean(reminder)}
+                            onClick={() => requestReminder(item.id)}
+                            aria-label={reminder ? `Interest saved for ${item.name || "item"}` : `Notify me when ${item.name || "item"} is available`}
+                            className={`flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border px-2 py-2 text-xs font-semibold transition-colors sm:text-sm ${reminder ? "border-green-300 bg-green-100 text-green-800" : "border-primary bg-primary text-white hover:border-primary-hover hover:bg-primary-hover"}`}
+                          >
+                            {reminder ? "✓ Reminder set" : "Notify me"}
+                          </button>
+                          {/* Temporary test button */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              localStorage.removeItem("salebeast-stock-reminders");
+                              setReminders({});
+                            }}
+                            className="mb-4 rounded-lg bg-red-100 px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-200"
+                          >
+                            Reset Reminders State (Dev Only)
+                          </button>
+                        </div>
+                      ) : quantity > 0 ? (
                         <div className="flex items-center rounded-full border border-border-subtle bg-secondary p-1">
                           <button
                             type="button"
