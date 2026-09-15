@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require("cors");
+const productRoute = require("./routes/products/productsRoute");
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(cors({
 }));
 
 app.use(express.json())
+
+app.use('/api/products', productRoute)
 
 app.get("/api/products", async (req, res) => {
     res.json({message:"success"})
