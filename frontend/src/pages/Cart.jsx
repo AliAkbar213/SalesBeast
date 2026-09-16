@@ -5,7 +5,6 @@ const formatPrice = (amount) => `${Number(amount || 0).toFixed(3)} KD`;
 
 function Cart() {
   const { cartItems, cartCount, cartTotal, updateQuantity, removeFromCart, clearCart } = useCart();
-  const imageBaseUrl = `${import.meta.env.VITE_API_URL}/images/`;
 
   return (
     <main className="mx-auto min-h-[calc(100vh-4rem)] max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -52,7 +51,7 @@ function Cart() {
                 <article key={item.id} className="flex gap-4 rounded-2xl border border-border bg-surface p-4 sm:gap-6 sm:p-5">
                   <Link to={`/products/${item.id}`} className="flex size-28 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-background p-2 sm:size-36" aria-label={`View ${item.name}`}>
                     {item.image ? (
-                      <img src={`${imageBaseUrl}${item.image}`} alt={item.name || "Product"} className="h-full w-full object-contain" />
+                      <img src={item.image} alt={item.name || "Product"} className="h-full w-full object-contain" />
                     ) : (
                       <span className="text-center text-xs text-text-muted">No image</span>
                     )}

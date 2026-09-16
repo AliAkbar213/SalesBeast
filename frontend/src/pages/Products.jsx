@@ -229,7 +229,7 @@ function Products() {
                   >
                     <Link to={`/products/${item.id}`}>
                       <div className="relative aspect-square w-full overflow-hidden p-3 sm:aspect-4/3 sm:p-4">{item.image && <img
-                        src={`${item.image}`}
+                        src={item.image}
                         alt={item.name || "Product image"}
                         className={`h-full w-full object-contain transition-transform duration-200 ease-out ${outOfStock ? "opacity-45 grayscale" : "group-hover:scale-[1.02]"}`}
                       />}

@@ -1,6 +1,9 @@
 const express = require("express")
 const cors = require("cors");
+const session = require("express-session");
+
 const productRoute = require("./routes/products/productsRoute");
+const userRoute = require("./routes/users/userRoute");
 
 const app = express();
 
@@ -16,7 +19,19 @@ app.use(cors({
 
 app.use(express.json())
 
+app.use(session({
+    secret: 'test',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 60,
+        sameSite: 'none',
+        secure: true
+    }
+}))
+
 app.use('/api/products', productRoute)
+app.use('/api/user', userRoute)
 
 app.get("/api/products", async (req, res) => {
     res.json({ message: "success" })

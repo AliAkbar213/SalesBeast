@@ -11,7 +11,6 @@ const Home = () => {
   const { data, loading, error } = useFetch(
     import.meta.env.VITE_API_URL + "/api/products/categories"
   );
-  const img_url = import.meta.env.VITE_API_URL + "/images/";
 
   return (
     <div className="min-h-screen bg-background text-text-main">
@@ -112,9 +111,9 @@ const Home = () => {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="flex h-40 items-center justify-center overflow-hidden rounded-md bg-surface-muted/40 p-4">
-                    {category.image_path ? (
+                    {category.image ? (
                       <img
-                        src={`${img_url}${category.image_path}`}
+                        src={'${category.image}'}
                         alt={category.name || "Category image"}
                         loading="lazy"
                         className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02] motion-reduce:transform-none"

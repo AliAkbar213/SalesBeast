@@ -1,6 +1,7 @@
 import { NavLink } from "react-router"
 import { useCart } from "../contexts/CartContext"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../contexts/AuthContext"
 
 function HomeIcon() {
   return (
@@ -62,6 +63,26 @@ function CartIcon() {
   )
 }
 
+function ProfileIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.75}
+      stroke="currentColor"
+      className="h-5 w-5 shrink-0"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 9.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.118a7.5 7.5 0 0 1 15 0A9.002 9.002 0 0 1 12 21a9.002 9.002 0 0 1-7.5-.882Z"
+      />
+    </svg>
+  )
+}
+
 function NavItem({ to, label, icon: Icon, badge }) {
   return (
     <NavLink to={to} aria-label={label} className="relative rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
@@ -90,6 +111,7 @@ function NavItem({ to, label, icon: Icon, badge }) {
 
 function Navbar() {
   const { cartCount } = useCart()
+  const { user } = useContext(AuthContext)
 
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -141,6 +163,7 @@ function Navbar() {
               )
             }
           />
+          <NavItem to={user ? "/profile" : "/login"} label="Profile" icon={ProfileIcon} />
         </div>
       </div>
     </nav>

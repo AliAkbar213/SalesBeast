@@ -18,7 +18,6 @@ function ProductDetails() {
   });
 
   const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
-  const imageBaseUrl = `${import.meta.env.VITE_API_URL}/images/`;
   const { data: product, loading, error } = useFetch(url);
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function ProductDetails() {
     return <main className="mx-auto max-w-7xl px-4 py-16 text-text-muted sm:px-6">Product not found.</main>;
   }
 
-  const imageUrl = product.image ? `${imageBaseUrl}${product.image}` : null;
+  const imageUrl = product.image;
   const quantity = getItemQuantity(product.id);
   const unavailable = Number(product.stock) === 0;
   const reminderSaved = reminders.includes(String(product.id));
