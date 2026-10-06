@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import useFetch from "../CustomHooks/useFetch";
 
+const featuredProductImageUrl = "/HY320.PNG";
+
 const ArrowIcon = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2">
     <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -17,49 +19,55 @@ const Home = () => {
       <main>
         <section className="relative isolate overflow-hidden border-b border-white/10 bg-brand-dark text-text-light">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 opacity-[0.06] bg-[linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] bg-size-[64px_64px]" />
-          <div className="page-container grid min-h-152 items-center gap-10 py-16 lg:grid-cols-[1.08fr_0.92fr] lg:py-20">
-            <div className="max-w-2xl">
-              <p className="mb-6 flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-orange-400"><span aria-hidden="true" className="h-px w-8 bg-primary" />Gear up. Power on.</p>
-              <h1 className="font-display text-5xl leading-[1.02] font-black tracking-[-0.055em] sm:text-6xl lg:text-7xl">
-                Tech that makes every setup <span className="text-orange-400">better.</span>
+          <div className="page-container grid min-h-152 items-center gap-10 py-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-16">
+            <div className="max-w-md">
+              <h1 className="font-display text-3xl leading-[1.15] font-medium tracking-tight sm:text-4xl lg:text-[2.75rem]">
+                Tech that makes every setup better.
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-7 text-stone-300 sm:text-lg">
-                Projectors, controllers, and smart accessories selected for great performance without the guesswork.
+              <p className="mt-4 max-w-sm text-sm leading-6 text-stone-400 sm:text-base sm:leading-7">
+                Shop projectors, controllers, and everyday tech.
               </p>
-              <div className="mt-9 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-4">
                 <Link
                   to="/products"
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3.5 text-sm font-bold text-white hover:bg-primary-hover"
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-hover"
                 >
                   Shop the collection
                   <ArrowIcon />
                 </Link>
                 <a
                   href="#about"
-                  className="inline-flex items-center rounded-md border border-white/20 px-6 py-3.5 text-sm font-bold text-white hover:border-white/40 hover:bg-white/5"
+                  className="inline-flex items-center py-3 text-sm font-medium text-stone-300 hover:text-white"
                 >
                   Why SaleBeast
                 </a>
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-md border border-white/15 bg-black/20 p-5 sm:p-7 lg:mr-0">
+            <Link
+              to="/products/2"
+              aria-label="View MagCubic HY320 Smart Projector"
+              className="relative mx-auto block w-full max-w-xl border border-white/15 bg-black/20 p-5 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:p-6 lg:mr-0"
+            >
               <div className="absolute inset-10 rounded-full bg-primary/25 blur-3xl" aria-hidden="true" />
-              <div className="relative mb-5 flex items-center justify-between gap-3 border-b border-white/10 pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-stone-400">
-                <span>SaleBeast / Setup essentials</span>
-                <span aria-hidden="true" className="size-1.5 shrink-0 bg-primary" />
-              </div>
-              <img
-                src="/salebeast-logo.png"
-                alt="SaleBeast"
-                className="relative aspect-square w-full rounded-lg object-cover"
-              />
-              <div className="relative mt-5 border-t border-white/10 pt-4 font-mono text-[10px] uppercase tracking-widest text-stone-400">
-                Watch. Play. Connect.
-              </div>
+              <h2 className="relative mb-5 border-b border-white/10 pb-4 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+                MagCubic HY320 Smart Projector
+              </h2>
+              {featuredProductImageUrl ? (
+                <img
+                  src={featuredProductImageUrl}
+                  alt="MagCubic HY320 Smart Projector"
+                  fetchPriority="high"
+                  className="relative aspect-square w-full rounded-lg object-contain"
+                />
+              ) : (
+                <div className="relative flex aspect-square w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 p-8 text-center text-sm text-stone-400">
+                  Product image coming soon
+                </div>
+              )}
               <span aria-hidden="true" className="absolute -top-px -left-px size-5 border-t-2 border-l-2 border-primary" />
               <span aria-hidden="true" className="absolute -right-px -bottom-px size-5 border-r-2 border-b-2 border-primary" />
-            </div>
+            </Link>
           </div>
         </section>
 
