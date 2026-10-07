@@ -88,7 +88,7 @@ function NavItem({ to, label, icon: Icon, badge }) {
     <NavLink to={to} aria-label={label} className="relative rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
       {({ isActive }) => (
         <span
-          className={`flex h-11 items-center justify-center gap-2 rounded-md border px-3 text-sm font-semibold transition-colors duration-200 ease-out ${isActive
+          className={`flex h-11 w-10 items-center justify-center gap-2.5 rounded-md border text-sm font-medium transition-colors duration-200 ease-out sm:w-auto sm:px-3 lg:px-4 ${isActive
             ? "border-primary/40 bg-primary/15 text-orange-400"
             : "border-transparent text-stone-300 hover:border-white/15 hover:bg-white/5 hover:text-white"
             }`}
@@ -140,12 +140,12 @@ function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10 bg-brand-dark/95 text-text-light backdrop-blur-xl transition-transform duration-200 ease-out motion-reduce:transition-none ${isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
     >
-      <div className="page-container flex h-full items-center justify-between gap-2">
-        <p className="flex shrink-0 items-center gap-2 sm:gap-3" aria-label="SaleBeast">
-          <img src="/salebeast-mark.png" alt="" className="size-8 rounded-md object-cover sm:size-9" />
-          <span className="text-sm font-black tracking-[-0.04em] sm:text-xl">SALE<span className="text-orange-400">BEAST</span></span>
+      <div className="page-container flex h-full items-center justify-between gap-2 sm:gap-6">
+        <p className="flex shrink-0 items-center gap-2 sm:gap-3.5" aria-label="SaleBeast">
+          <img src="/salebeast-mark.png" alt="" className="size-7 rounded-md object-cover sm:size-9" />
+          <span className="text-xs font-bold tracking-[0.06em] min-[380px]:text-sm sm:text-xl">SALE<span className="text-orange-400">BEAST</span></span>
         </p>
-        <div className="flex shrink-0 items-center gap-0.5 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-0.5 sm:gap-3 lg:gap-5">
           <NavItem to="/" label="Home" icon={HomeIcon} />
           <NavItem to="/products" label="Products" icon={ProductsIcon} />
           <NavItem
